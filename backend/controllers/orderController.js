@@ -152,30 +152,29 @@ const placedOrderRazorpay = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-//verify stripe
+//verify razorpay
 const verifyRazorpay = async (req, res) => {
   try {
-    const { orderId, razorpay_order_id, userId } = req.body; // Ensure userId is passed from the frontend
-    
-    // Fetch the Razorpay order details
+    const { razorpay_order_id, userId } = req.body;
+
     const orderInfo = await razorpay.orders.fetch(razorpay_order_id);
 
     if (orderInfo.status === 'paid') {
-      // Update your order in the database to mark it as paid
-      await orderModel.findByIdAndUpdate(orderId, { payment: true });
-      
-      // Clear the user's cart if needed
+      const mongoOrderId = orderInfo.receipt;
+
+      await orderModel.findByIdAndUpdate(mongoOrderId, { payment: true });
       await userModel.findByIdAndUpdate(userId, { cartData: {} });
-      
+
       res.json({ success: true, message: "Payment successful" });
     } else {
-      res.json({ success: false, message: "Payment failed" });
+      res.json({ success: false, message: "Payment not completed" });
     }
   } catch (error) {
     console.error("Razorpay verification error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 
 //All orders data for admin panel
