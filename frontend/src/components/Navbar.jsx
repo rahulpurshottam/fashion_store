@@ -5,6 +5,7 @@ import { Search, ShoppingCart, CircleUserRound, AlignJustify, MoveLeft } from 'l
 import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const { setShowSearch, getCartCount, token, setToken, Navigate, setCartItems } = useContext(ShopContext);
 
@@ -54,14 +55,19 @@ const Navbar = () => {
 
 {/* Profile Icon (Conditional Rendering) */}
 <div className="relative group">
-  <CircleUserRound
-    className="w-5 cursor-pointer"
-    onClick={() => 
-      token?null:Navigate('/login')
+<CircleUserRound
+  className="w-5 cursor-pointer"
+  onClick={() => {
+    if (token) {
+      setProfileDropdownOpen((prev) => !prev);
+    } else {
+      Navigate('/login');
     }
-  />
-  {token && (
-    <div className="absolute right-0 pt-4 hidden group-hover:block z-10">
+  }}
+/>
+
+{token && (
+  <div className={`absolute right-0 pt-4 z-10 ${profileDropdownOpen ? 'block' : 'hidden'} sm:group-hover:block`}>
       <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
         <p className="cursor-pointer hover:text-black">My Profile</p>
         <p onClick={()=>Navigate('/orders')} className="cursor-pointer hover:text-black">Orders</p>
