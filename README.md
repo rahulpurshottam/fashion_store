@@ -70,14 +70,8 @@ npm install
 
 ## 💡 Usage
 Run the frontend and backend servers:
-
-bash
-Copy
-Edit
 # Start backend (from backend directory)
 npm run dev
-bash
-Copy
-Edit
+
 # Start frontend (from frontend directory)
 npm start
