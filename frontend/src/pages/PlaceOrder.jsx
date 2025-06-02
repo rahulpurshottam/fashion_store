@@ -71,7 +71,10 @@ const initpay = (order) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-
+ if (!token) {
+    toast.error("Please sign in first!");
+    return;
+  }
     try {
       let orderItems = []
 
