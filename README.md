@@ -3,12 +3,12 @@
 A full-stack e-commerce application for fashion products, built using the MERN stack. Users can browse products, manage their cart, and securely purchase items using Razorpay.
 
 ### 🔗 Live Demo
-👉 [Live Site](https://voltex-1.vercel.app/)  
-👉 [Backend Repo](https://github.com/rahulpurshottam/fashion_store)
+[Live Site](https://voltex-1.vercel.app/)  
+[Backend Repo](https://github.com/rahulpurshottam/fashion_store)
 
 ---
 
-## 📌 Features
+## Features
 
 - Product listings with filtering and pagination
 - User authentication using JWT
@@ -19,7 +19,7 @@ A full-stack e-commerce application for fashion products, built using the MERN s
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - **Frontend:** React, TailwindCSS, Redux Toolkit
 - **Backend:** Node.js, Express.js
@@ -31,7 +31,7 @@ A full-stack e-commerce application for fashion products, built using the MERN s
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
