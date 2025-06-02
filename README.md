@@ -39,24 +39,4 @@ A full-stack e-commerce application for fashion products, built using the MERN s
 - Razorpay API Keys
 - Cloudinary API Keys
 
-### Run Locally
 
-```bash
-# Clone frontend and backend
-git clone https://github.com/rahulpurshottam/fashion_store.git
-cd fashion_store
-
-# Install dependencies
-npm install
-
-# Set environment variables in a `.env` file
-MONGO_URI=your_mongo_uri
-JWT_SECRET=your_jwt_secret
-RAZORPAY_KEY_ID=your_key_id
-RAZORPAY_SECRET=your_secret
-CLOUDINARY_NAME=...
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-
-# Start development
-npm start
