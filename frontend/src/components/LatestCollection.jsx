@@ -2,31 +2,55 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import Title from './Title';
 import ProductItem from './ProductItem';
+import { motion } from 'framer-motion';
 
 const LatestCollection = () => {
-    const {products}=useContext(ShopContext);
-    const [latestProducts,setLatestProducts]=useState([]);
-
-    useEffect(()=>{
-        setLatestProducts(products.slice(0,10));
-    },[products])
-  return (
- <div id="latestcollection" className='my-10'>
-        <div className="text-center py-8 text-3xl">
-            <Title text1={'LATEST'} text2={'COLLECTIONS'}/>
-            <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, odit enim beatae magni aliquam possimus asperiores. Consequuntur autem eius nulla?</p>
+    const { products } = useContext(ShopContext);
+    const [latestProducts, setLatestProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLatestProducts(products.slice(0, 10));
+        if (products.length > 0) {
+      setTimeout(() => {
+        setLoading(false);
+      }); 
+    }
+    }, [products])
+    return (
+        <div>
+      {/* Loading bar */}
+       {loading && (
+        <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60">
+          <div className="w-[80%] sm:w-1/2 md:w-1/3 h-3 bg-gray-600 rounded-full overflow-hidden shadow-lg">
+            <motion.div
+              className="h-full bg-white rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: '100%' }}
+              transition={{ duration: 1.5, ease: 'easeInOut' }}
+            />
+          </div>
         </div>
-        {/* Rendering Products */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {
-            latestProducts.map((item,index)=>(
-                <ProductItem key={index} id={item._id} image={item.image} name={item.name} price={item.price} />
-            ))
-        }
+      )}
+      {!loading && (
+        <>
+        <div id="latestcollection" className='my-10'>
+            <div className="text-center py-8 text-3xl">
+                <Title text1={'LATEST'} text2={'COLLECTIONS'} />
+                <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, odit enim beatae magni aliquam possimus asperiores. Consequuntur autem eius nulla?</p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+                {
+                    latestProducts.map((item, index) => (
+                        <ProductItem key={index} id={item._id} image={item.image} name={item.name} price={item.price} />
+                    ))
+                }
+            </div>
         </div>
+        </>
+         )}
     </div>
-  )
+    )
 }
 
 export default LatestCollection
