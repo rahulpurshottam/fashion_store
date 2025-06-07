@@ -7,26 +7,24 @@ import { motion } from 'framer-motion';
 const LatestCollection = () => {
     const { products } = useContext(ShopContext);
     const [latestProducts, setLatestProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const {loading} = useContext(ShopContext);
+    const {progress} = useContext(ShopContext);
     useEffect(() => {
+              if (products.length > 0) {
         setLatestProducts(products.slice(0, 10));
-        if (products.length > 0) {
-      setTimeout(() => {
-        setLoading(false);
-      }); 
-    }
+        }
+        
     }, [products])
     return (
         <div>
       {/* Loading bar */}
-       {loading && (
-        <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60">
-          <div className="w-[80%] sm:w-1/2 md:w-1/3 h-3 bg-gray-600 rounded-full overflow-hidden shadow-lg">
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="w-64 h-4 bg-[#1c1c1c] rounded-full overflow-hidden shadow-inner shadow-black">
             <motion.div
-              className="h-full bg-white rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: '100%' }}
-              transition={{ duration: 1.5, ease: 'easeInOut' }}
+              className="h-full bg-white rounded-full shadow-[0_0_10px_#ffffffcc]"
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.2, ease: 'linear' }}
             />
           </div>
         </div>
