@@ -17,18 +17,22 @@ const LatestCollection = () => {
     }, [products])
     return (
         <div>
-      {/* Loading bar */}
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-64 h-4 bg-[#1c1c1c] rounded-full overflow-hidden shadow-inner shadow-black">
-            <motion.div
-              className="h-full bg-white rounded-full shadow-[0_0_10px_#ffffffcc]"
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.2, ease: 'linear' }}
-            />
-          </div>
-        </div>
-      )}
+          {loading && (
+  <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm space-y-2">
+    <p className="text-white text-sm tracking-wide">
+      This may take a moment. Please wait...
+    </p>
+    <div className="w-64 h-4 bg-[#1c1c1c] rounded-full overflow-hidden shadow-inner shadow-black">
+      <motion.div
+        className="h-full bg-white rounded-full shadow-[0_0_10px_#ffffffcc]"
+        animate={{ width: `${progress}%` }}
+        transition={{ duration: 0.2, ease: 'linear' }}
+      />
+    </div>
+  </div>
+)}
+
+
       {!loading && (
         <>
         <div id="latestcollection" className='my-10'>
