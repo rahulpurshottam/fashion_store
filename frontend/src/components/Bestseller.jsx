@@ -7,8 +7,6 @@ import { motion } from 'framer-motion';
 const Bestseller = () => {
   const { products } = useContext(ShopContext);
   const [bestSeller, setBestSeller] = useState([]);
-  const { loading } = useContext(ShopContext);
-  const { progress } = useContext(ShopContext);
   useEffect(() => {
     if (products.length > 0) {
       const bestProduct = products.filter(item => item.bestseller);
@@ -16,21 +14,6 @@ const Bestseller = () => {
     }
   }, [products]);
   return (
-    <div>
-      {/* Loading bar */}
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-64 h-4 bg-[#1c1c1c] rounded-full overflow-hidden shadow-inner shadow-black">
-            <motion.div
-              className="h-full bg-white rounded-full shadow-[0_0_10px_#ffffffcc]"
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.2, ease: 'linear' }}
-            />
-          </div>
-        </div>
-      )}
-      {!loading && (
-        <>
           <div className='my-10'>
             <div className="text-center text-3xl py-8">
 
@@ -45,9 +28,6 @@ const Bestseller = () => {
               }
             </div>
           </div>
-        </>
-      )}
-    </div>
   )
 }
 
