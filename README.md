@@ -2,8 +2,7 @@
 
 A full-stack e-commerce application for fashion products, built using the MERN stack. Users can browse products, manage their cart, and securely purchase items using Razorpay.
 
-### Live Demo
-[Live Site](https://voltex-1.vercel.app/)  
+[![Live Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://voltex-1.vercel.app/)
 
 ---
 ### 🔥 Why Fashion Store?
@@ -75,3 +74,54 @@ npm run dev
 
 # Start frontend (from frontend directory)
 npm start
+
+## Project Structure
+
+```
+.
+/quickcard
+├── .gitignore
+├── README.md
+├── package.json              # Project dependencies and scripts
+├── next.config.mjs          
+├── postcss.config.mjs        
+├── tailwind.config.js        
+├── vercel.json               
+│
+├── /app
+│   ├── layout.jsx           
+│   ├── page.jsx             
+│   │
+│   ├── /api                 
+│   │   └── /cards
+│   │       └── route.js    
+│   │
+│   ├── /components           # Reusable UI components
+│   │   ├── Card.jsx          # Displays individual task cards
+│   │   ├── EditCardForm.jsx  
+│   │   ├── PriorityDisplay.jsx
+│   │   ├── StatusDisplay.jsx  
+│   │   └── DeleteBlock.jsx   
+│   │
+│   ├── /lib                  # Utility and helper functions
+│   │   ├── db.js             # Cached MongoDB (Mongoose) connection
+│   │   ├── api.js           
+│   │   └── formatters.js    
+│   │
+│   ├── /styles              
+│   └── globals.css           
+│
+├── /models
+│   └── Card.js               
+│
+├── /public
+│   ├── favicon.ico          
+│   ├── logo.png              
+│   └── manifest.json         # Web app manifest for PWA support (optional)
+│
+└── /utils
+    └── constants.js          # Common constants like statuses, priorities, etc.
+
+```
+
+---
