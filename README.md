@@ -75,8 +75,9 @@ npm run dev
 # Start frontend (from frontend directory)
 npm start
 
-## Project Structure
+```
 
+## Project Structure
 ```
 .
 /quickcard
