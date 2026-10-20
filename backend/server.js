@@ -11,34 +11,73 @@ import orderRouter from "./routes/orderRoute.js";
 // App config
 const app = express();
 const port = process.env.PORT || 4000;
+const allowedOrigins = new Set([
+  "https://voltex-1.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  ...(process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+]);
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Requests without an Origin header include health checks and server-to-server calls.
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS origin not allowed: ${origin}`));
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "token"],
+};
+
+let databaseReady = false;
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use("/api", (req, res, next) => {
+  if (!databaseReady) {
+    res.status(503).json({ success: false, message: "Database is unavailable" });
+    return;
+  }
+
+  next();
+});
+
+// API Endpoints
+app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
+
+app.get("/", (req, res) => {
+  res.send("API working");
+});
 
 async function startServer() {
-  try {
-    await connectDB();            
-    connectCloudinary();           
+  const server = app.listen(port, () => {
+    console.log("Server started on PORT:", port);
+  });
+  server.on("error", (err) => {
+    console.error("Server failed to listen:", err);
+  });
 
-    // Middlewares
-    app.use(express.json());
-    app.use(cors());
+  const connectDatabase = async () => {
+    try {
+      await connectDB();
+      connectCloudinary();
+      databaseReady = true;
+    } catch (err) {
+      console.error("Database connection failed; retrying in 10 seconds:", err);
+      setTimeout(connectDatabase, 10000);
+    }
+  };
 
-    // API Endpoints
-    app.use("/api/user", userRouter);
-    app.use("/api/product", productRouter);
-    app.use("/api/cart", cartRouter);
-    app.use("/api/order", orderRouter);
-
-    app.get("/", (req, res) => {
-      res.send("API working ");
-    });
-
-    
-    app.listen(port, () => {
-      console.log("Server started on PORT:", port);
-    });
-  } catch (err) {
-    console.error(" Failed to start server:", err.message);
-    process.exit(1); 
-  }
+  await connectDatabase();
 }
 
-startServer(); 
+startServer();
