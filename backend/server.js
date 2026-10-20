@@ -35,18 +35,8 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization", "token"],
 };
 
-let databaseReady = false;
-
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/api", (req, res, next) => {
-  if (!databaseReady) {
-    res.status(503).json({ success: false, message: "Database is unavailable" });
-    return;
-  }
-
-  next();
-});
 
 // API Endpoints
 app.use("/api/user", userRouter);
@@ -70,7 +60,6 @@ async function startServer() {
     try {
       await connectDB();
       connectCloudinary();
-      databaseReady = true;
     } catch (err) {
       console.error("Database connection failed; retrying in 10 seconds:", err);
       setTimeout(connectDatabase, 10000);
