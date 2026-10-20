@@ -17,14 +17,11 @@ const connectDB = async () => {
       throw new Error("MONGODB_URI is not configured");
     }
 
-    // Accept both a cluster URI and a URI that already contains the database name.
-    const parsedUri = new URL(configuredUri);
-    if (!parsedUri.pathname || parsedUri.pathname === "/") {
-      parsedUri.pathname = "/e-commerce";
-    }
-    const uri = parsedUri.toString();
-
-    await mongoose.connect(uri);
+    await mongoose.connect(configuredUri, {
+      dbName: "e-commerce",
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+    });
 
     isConnected = true;
     console.log(`MongoDB connected`);
