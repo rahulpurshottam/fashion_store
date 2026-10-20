@@ -11,10 +11,20 @@ const connectDB = async () => {
   console.log("Connecting to MongoDB...");
 
   try {
-    const conn = await mongoose.connect(`${process.env.MONGODB_URI}/e-commerce`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const configuredUri = process.env.MONGODB_URI?.trim();
+
+    if (!configuredUri) {
+      throw new Error("MONGODB_URI is not configured");
+    }
+
+    // Accept both a cluster URI and a URI that already contains the database name.
+    const parsedUri = new URL(configuredUri);
+    if (!parsedUri.pathname || parsedUri.pathname === "/") {
+      parsedUri.pathname = "/e-commerce";
+    }
+    const uri = parsedUri.toString();
+
+    await mongoose.connect(uri);
 
     isConnected = true;
     console.log(`MongoDB connected`);
@@ -25,6 +35,7 @@ const connectDB = async () => {
 
     mongoose.connection.on("disconnected", () => {
       console.warn("MongoDB disconnected.");
+      isConnected = false;
     });
 
   } catch (err) {
